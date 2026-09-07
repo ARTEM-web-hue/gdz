@@ -71,52 +71,36 @@
         });
 
         // ============================================================
-        //  ЗАГРУЗКА СПИСКА ДАТ
+        //  ЗАГРУЗКА СПИСКА ДАТ ИЗ dates.json
         // ============================================================
         async function loadDates() {
             const grid = document.getElementById('dateGrid');
             try {
-                // Пробуем с /gdz/
-                let url = '/gdz/Items/Match/';
-                let response = await fetch(url);
+                const response = await fetch('/gdz/Items/Match/dates.json');
                 
-                // Если не работает — пробуем без /gdz/
                 if (!response.ok) {
-                    url = '/Items/Match/';
-                    response = await fetch(url);
+                    throw new Error('dates.json не найден');
                 }
                 
-                const text = await response.text();
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(text, 'text/html');
-                const links = doc.querySelectorAll('a');
-                const dates = [];
+                const dates = await response.json();
                 
-                for (let link of links) {
-                    const href = link.getAttribute('href');
-                    if (href && href.endsWith('.json')) {
-                        const date = href.replace('.json', '');
-                        dates.push(date);
-                    }
-                }
-                
-                if (dates.length === 0) {
+                if (!dates || dates.length === 0) {
                     grid.innerHTML = `
                         <div class="empty">
                             📭 Нет заданий.<br>
-                            <small>Добавь JSON-файл в папку /Items/Match/</small>
+                            <small>Добавь даты в файл /Items/Match/dates.json</small>
                         </div>
                     `;
                     return;
                 }
                 
+                // Сортируем: сначала свежие
                 dates.sort().reverse();
                 grid.innerHTML = '';
                 
                 for (let date of dates) {
                     const card = document.createElement('a');
                     card.className = 'date-card';
-                    // ===== ГЛАВНОЕ: ПРАВИЛЬНАЯ ССЫЛКА =====
                     card.href = `/gdz/Match/view.html?date=${date}`;
                     
                     const parts = date.split('_');
@@ -136,7 +120,7 @@
                 grid.innerHTML = `
                     <div class="empty">
                         ⚠️ Не удалось загрузить список.<br>
-                        <small>Проверь, что есть JSON-файлы в /Items/Match/</small>
+                        <small>Проверь, что файл /Items/Match/dates.json существует</small>
                     </div>
                 `;
             }
