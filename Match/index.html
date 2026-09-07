@@ -47,6 +47,9 @@
 
     <script src="/gdz/script.js"></script>
     <script>
+        // ============================================================
+        //  КАЛЬКУЛЯТОР
+        // ============================================================
         function openCalc() {
             document.getElementById('calcPopup').classList.add('open');
             document.getElementById('calcInput').focus();
@@ -67,10 +70,22 @@
             if (e.target === this) closeCalc();
         });
 
+        // ============================================================
+        //  ЗАГРУЗКА СПИСКА ДАТ
+        // ============================================================
         async function loadDates() {
             const grid = document.getElementById('dateGrid');
             try {
-                const response = await fetch('/gdz/Items/Match/');
+                // Пробуем с /gdz/
+                let url = '/gdz/Items/Match/';
+                let response = await fetch(url);
+                
+                // Если не работает — пробуем без /gdz/
+                if (!response.ok) {
+                    url = '/Items/Match/';
+                    response = await fetch(url);
+                }
+                
                 const text = await response.text();
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(text, 'text/html');
@@ -101,6 +116,7 @@
                 for (let date of dates) {
                     const card = document.createElement('a');
                     card.className = 'date-card';
+                    // ===== ГЛАВНОЕ: ПРАВИЛЬНАЯ ССЫЛКА =====
                     card.href = `/gdz/Match/view.html?date=${date}`;
                     
                     const parts = date.split('_');
