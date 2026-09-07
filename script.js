@@ -207,8 +207,22 @@ async function renderPuzzle(container, puzzleStr, delimage) {
 // ============================================================
 
 async function loadYAML(date) {
-    const url = `/gdz/Items/Match/${date}.json`;
-    const response = await fetch(url);
+    // Пробуем с /gdz/
+    let url = `/gdz/Items/Match/${date}.json`;
+    let response = await fetch(url);
+    
+    // Если не работает — пробуем без /gdz/
+    if (!response.ok) {
+        url = `/Items/Match/${date}.json`;
+        response = await fetch(url);
+    }
+    
+    // Если всё равно не работает — пробуем относительный путь
+    if (!response.ok) {
+        url = `../Items/Match/${date}.json`;
+        response = await fetch(url);
+    }
+    
     if (!response.ok) throw new Error('Файл не найден');
     return await response.json();
 }
