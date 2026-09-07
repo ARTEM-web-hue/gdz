@@ -207,7 +207,7 @@ async function renderPuzzle(container, puzzleStr, delimage) {
 // ============================================================
 
 async function loadYAML(date) {
-    const url = `/Items/Match/${date}.json`;
+    const url = `/gdz/Items/Match/${date}.json`;
     const response = await fetch(url);
     if (!response.ok) throw new Error('Файл не найден');
     return await response.json();
