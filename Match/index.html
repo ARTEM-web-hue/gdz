@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5А Математика — Список</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/gdz/style.css">
 </head>
 <body>
     <div class="container">
@@ -12,8 +12,8 @@
         <div class="top-bar">
             <div class="logo">📐 <span>5А</span> Математика</div>
             <div class="nav-links">
-                <a href="/">Главная</a>
-                <a href="/Match/" class="active">ГДЗ</a>
+                <a href="/gdz/">Главная</a>
+                <a href="/gdz/Match/" class="active">ГДЗ</a>
                 <button class="calc-toggle" onclick="openCalc()">🧮 Калькулятор</button>
             </div>
         </div>
@@ -29,11 +29,11 @@
             <div id="dateGrid" class="date-grid">
                 <div class="loading">⏳ Загрузка...</div>
             </div>
-            <a href="/" class="back-link">← На главную</a>
+            <a href="/gdz/" class="back-link">← На главную</a>
         </div>
     </div>
 
-    <!-- КАЛЬКУЛЯТОР (ПОПАП) -->
+    <!-- КАЛЬКУЛЯТОР -->
     <div class="calc-popup" id="calcPopup">
         <div class="calc-content">
             <button class="close-btn" onclick="closeCalc()">✕</button>
@@ -45,20 +45,15 @@
         </div>
     </div>
 
-    <script src="/script.js"></script>
+    <script src="/gdz/script.js"></script>
     <script>
-        // ============================================================
-        //  КАЛЬКУЛЯТОР
-        // ============================================================
         function openCalc() {
             document.getElementById('calcPopup').classList.add('open');
             document.getElementById('calcInput').focus();
         }
-        
         function closeCalc() {
             document.getElementById('calcPopup').classList.remove('open');
         }
-        
         function runCalc() {
             const input = document.getElementById('calcInput');
             const expr = input.value.trim();
@@ -68,22 +63,15 @@
             }
             renderCalculation(expr);
         }
-        
         document.getElementById('calcPopup').addEventListener('click', function(e) {
             if (e.target === this) closeCalc();
         });
 
-        // ============================================================
-        //  ЗАГРУЗКА СПИСКА ДАТ (JSON)
-        // ============================================================
         async function loadDates() {
             const grid = document.getElementById('dateGrid');
             try {
-                // Пытаемся получить список файлов через GitHub API
-                const response = await fetch('/Items/Match/');
+                const response = await fetch('/gdz/Items/Match/');
                 const text = await response.text();
-                
-                // Парсим HTML-листинг
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(text, 'text/html');
                 const links = doc.querySelectorAll('a');
@@ -91,7 +79,6 @@
                 
                 for (let link of links) {
                     const href = link.getAttribute('href');
-                    // Ищем JSON-файлы
                     if (href && href.endsWith('.json')) {
                         const date = href.replace('.json', '');
                         dates.push(date);
@@ -108,14 +95,13 @@
                     return;
                 }
                 
-                // Сортируем по убыванию (сначала свежие)
                 dates.sort().reverse();
-                
                 grid.innerHTML = '';
+                
                 for (let date of dates) {
                     const card = document.createElement('a');
                     card.className = 'date-card';
-                    card.href = `/Match/view.html?date=${date}`;
+                    card.href = `/gdz/Match/view.html?date=${date}`;
                     
                     const parts = date.split('_');
                     const day = parts[0];
