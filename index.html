@@ -3,33 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5А Математика</title>
-    <link rel="stylesheet" href="style.css">
+    <title>5А Математика — Список</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-    <div class="container main-page">
+    <div class="container">
         <!-- ТОП-ПАНЕЛЬ -->
         <div class="top-bar">
             <div class="logo">📐 <span>5А</span> Математика</div>
             <div class="nav-links">
-                <a href="/" class="active">Главная</a>
-                <a href="/Match/">ГДЗ</a>
+                <a href="/">Главная</a>
+                <a href="/Match/" class="active">ГДЗ</a>
                 <button class="calc-toggle" onclick="openCalc()">🧮 Калькулятор</button>
             </div>
         </div>
         
-        <!-- ГЕРОЙ -->
-        <div class="hero">
+        <!-- ШАПКА -->
+        <div class="header">
             <h1>📐 5А Математика</h1>
-            <p>Готовые домашние задания для нашего класса</p>
-            <a href="/Match/" class="btn-primary">Перейти к заданиям →</a>
+            <div class="date">Выбери дату</div>
         </div>
-        <div class="footer-info">
-            <p>👤 Добавляет: <span id="mainManager">Артём</span></p>
+        
+        <!-- СПИСОК ДАТ -->
+        <div class="date-list">
+            <div id="dateGrid" class="date-grid">
+                <div class="loading">⏳ Загрузка...</div>
+            </div>
+            <a href="/" class="back-link">← На главную</a>
         </div>
     </div>
 
-    <!-- ===== КАЛЬКУЛЯТОР (ПОПАП) ===== -->
+    <!-- КАЛЬКУЛЯТОР (ПОПАП) -->
     <div class="calc-popup" id="calcPopup">
         <div class="calc-content">
             <button class="close-btn" onclick="closeCalc()">✕</button>
@@ -41,9 +45,11 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="/script.js"></script>
     <script>
-        // Калькулятор
+        // ============================================================
+        //  КАЛЬКУЛЯТОР
+        // ============================================================
         function openCalc() {
             document.getElementById('calcPopup').classList.add('open');
             document.getElementById('calcInput').focus();
@@ -66,6 +72,75 @@
         document.getElementById('calcPopup').addEventListener('click', function(e) {
             if (e.target === this) closeCalc();
         });
+
+        // ============================================================
+        //  ЗАГРУЗКА СПИСКА ДАТ (JSON)
+        // ============================================================
+        async function loadDates() {
+            const grid = document.getElementById('dateGrid');
+            try {
+                // Пытаемся получить список файлов через GitHub API
+                const response = await fetch('/Items/Match/');
+                const text = await response.text();
+                
+                // Парсим HTML-листинг
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(text, 'text/html');
+                const links = doc.querySelectorAll('a');
+                const dates = [];
+                
+                for (let link of links) {
+                    const href = link.getAttribute('href');
+                    // Ищем JSON-файлы
+                    if (href && href.endsWith('.json')) {
+                        const date = href.replace('.json', '');
+                        dates.push(date);
+                    }
+                }
+                
+                if (dates.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty">
+                            📭 Нет заданий.<br>
+                            <small>Добавь JSON-файл в папку /Items/Match/</small>
+                        </div>
+                    `;
+                    return;
+                }
+                
+                // Сортируем по убыванию (сначала свежие)
+                dates.sort().reverse();
+                
+                grid.innerHTML = '';
+                for (let date of dates) {
+                    const card = document.createElement('a');
+                    card.className = 'date-card';
+                    card.href = `/Match/view.html?date=${date}`;
+                    
+                    const parts = date.split('_');
+                    const day = parts[0];
+                    const month = parts[1];
+                    const year = parts[2];
+                    
+                    card.innerHTML = `
+                        <div class="day">${day}</div>
+                        <div class="date-full">${month}.${year}</div>
+                        <div class="badge">📖 Открыть</div>
+                    `;
+                    grid.appendChild(card);
+                }
+            } catch (e) {
+                console.error('Ошибка загрузки списка:', e);
+                grid.innerHTML = `
+                    <div class="empty">
+                        ⚠️ Не удалось загрузить список.<br>
+                        <small>Проверь, что есть JSON-файлы в /Items/Match/</small>
+                    </div>
+                `;
+            }
+        }
+        
+        loadDates();
     </script>
 </body>
 </html>

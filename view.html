@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5А Математика — ГДЗ</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ТОП-ПАНЕЛЬ -->
+        <div class="top-bar">
+            <div class="logo">📐 <span>5А</span> Математика</div>
+            <div class="nav-links">
+                <a href="/">Главная</a>
+                <a href="/Match/" class="active">ГДЗ</a>
+                <button class="calc-toggle" onclick="openCalc()">🧮 Калькулятор</button>
+            </div>
+        </div>
+        
+        <!-- ШАПКА С ДАТОЙ -->
+        <div class="header">
+            <h1>📐 5А Математика</h1>
+            <div class="date" id="headerDate">Загрузка...</div>
+        </div>
+        
+        <div class="main-grid">
+            <div class="card" id="content">
+                <div class="loading">⏳ Загрузка задания...</div>
+            </div>
+            
+            <!-- РЕКЛАМА -->
+            <div class="rek-side" id="rekSide">
+                <div class="rek-label">📢 Реклама</div>
+                <a href="#" target="_blank" id="rekLink">
+                    <img src="" alt="Реклама" id="rekImage" style="width:100%;max-width:240px;border-radius:12px;border:1px solid #dde3ec;display:none;">
+                </a>
+            </div>
+        </div>
+        
+        <a href="/Match/" class="back-link">← Назад к списку</a>
+    </div>
+
+    <!-- КАЛЬКУЛЯТОР (ПОПАП) -->
+    <div class="calc-popup" id="calcPopup">
+        <div class="calc-content">
+            <button class="close-btn" onclick="closeCalc()">✕</button>
+            <h2>🧮 Калькулятор</h2>
+            <p style="color:#7a8a9e;margin-bottom:15px;font-size:14px;">Введите пример: <strong>12+34-5*6</strong></p>
+            <input type="text" id="calcInput" placeholder="Например: 12+34-5*6" onkeydown="if(event.key==='Enter') runCalc()">
+            <button class="calc-btn" onclick="runCalc()">Посчитать</button>
+            <div class="calc-result" id="calcResult">Введите пример и нажмите "Посчитать"</div>
+        </div>
+    </div>
+    
+    <script src="/script.js"></script>
+    <script>
+        // ============================================================
+        //  КАЛЬКУЛЯТОР
+        // ============================================================
+        function openCalc() {
+            document.getElementById('calcPopup').classList.add('open');
+            document.getElementById('calcInput').focus();
+        }
+        
+        function closeCalc() {
+            document.getElementById('calcPopup').classList.remove('open');
+        }
+        
+        function runCalc() {
+            const input = document.getElementById('calcInput');
+            const expr = input.value.trim();
+            if (!expr) {
+                document.getElementById('calcResult').innerHTML = '❌ Введите пример';
+                return;
+            }
+            renderCalculation(expr);
+        }
+        
+        document.getElementById('calcPopup').addEventListener('click', function(e) {
+            if (e.target === this) closeCalc();
+        });
+
+        // ============================================================
+        //  ОСНОВНАЯ ЛОГИКА
+        // ============================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const date = urlParams.get('date');
+        
+        if (!date) {
+            document.getElementById('content').innerHTML = `
+                <div class="error">❌ Не указана дата</div>
+            `;
+            document.getElementById('headerDate').textContent = 'Ошибка';
+        } else {
+            document.getElementById('headerDate').textContent = date.replace(/_/g, '.');
+            loadData(date);
+        }
+        
+        async function loadData(date) {
+            const content = document.getElementById('content');
+            
+            try {
+                const data = await loadYAML(date);
+                console.log('Данные:', data);
+                
+                let html = '';
+                
+                // Фото
+                html += `
+                    <div class="image-block">
+                        <div class="label">📸 Развертка тетради</div>
+                        <img src="${data.images || ''}" alt="Фото развертки" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="no-image" style="display:none;">🖼️ Фото не загружено</div>
+                    </div>
+                `;
+                
+                // Задание
+                html += `
+                    <div class="work-block">
+                        <div class="label">📝 Задание</div>
+                        <div class="text">${data.work || 'Нет задания'}</div>
+                    </div>
+                `;
+                
+                // Примеры
+                html += `
+                    <div class="puzzle-block">
+                        <span class="label">🧮 Примеры</span>
+                        <div id="puzzleContainer" class="puzzle-grid"></div>
+                    </div>
+                `;
+                
+                // Ответ
+                html += `
+                    <div id="answerBlock" class="answer-block">
+                        <div class="label">✅ Ответ</div>
+                        <div class="text" id="answerText">${data.answer || 'Нет ответа'}</div>
+                    </div>
+                `;
+                
+                // Кнопка
+                html += `
+                    <button id="toggleBtn" class="toggle-btn">📖 Показать ответ</button>
+                `;
+                
+                // Менеджер
+                html += `
+                    <div class="manager-block">
+                        👤 Добавил: <span id="managerName">${data.managers || 'Неизвестно'}</span>
+                    </div>
+                `;
+                
+                content.innerHTML = html;
+                
+                // Рендерим примеры (передаём delimage)
+                const puzzleContainer = document.getElementById('puzzleContainer');
+                await renderPuzzle(puzzleContainer, data.puzzle || '', data.delimage);
+                
+                // Тоггл ответа
+                const answerBlock = document.getElementById('answerBlock');
+                const toggleBtn = document.getElementById('toggleBtn');
+                let isOpen = false;
+                
+                toggleBtn.addEventListener('click', function() {
+                    isOpen = !isOpen;
+                    answerBlock.classList.toggle('open', isOpen);
+                    this.textContent = isOpen ? '🙈 Скрыть ответ' : '📖 Показать ответ';
+                    this.classList.toggle('hidden-btn', isOpen);
+                });
+                
+                // РЕКЛАМА
+                const rekImage = document.getElementById('rekImage');
+                const rekLink = document.getElementById('rekLink');
+                const rekSide = document.getElementById('rekSide');
+                
+                if (data.rek && data.rek.image) {
+                    rekImage.src = data.rek.image;
+                    rekImage.style.display = 'block';
+                    rekLink.href = data.rek['giper-link'] || '#';
+                } else {
+                    rekSide.style.display = 'none';
+                }
+                
+            } catch (e) {
+                content.innerHTML = `
+                    <div class="error">
+                        ❌ Ошибка загрузки<br>
+                        <small>${e.message}</small>
+                    </div>
+                `;
+                document.getElementById('headerDate').textContent = 'Ошибка';
+            }
+        }
+    </script>
+</body>
+</html>
