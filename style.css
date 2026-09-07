@@ -1,0 +1,590 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f4f8;
+    min-height: 100vh;
+    padding: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+.container {
+    max-width: 1100px;
+    width: 100%;
+}
+
+/* ===== ГЛАВНАЯ ===== */
+.main-page .hero {
+    text-align: center;
+    background: #fff;
+    padding: 40px 20px;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+.main-page .hero h1 {
+    font-size: 36px;
+    color: #1a3a5c;
+}
+.main-page .hero p {
+    font-size: 18px;
+    color: #5a7a9a;
+    margin: 15px 0 25px;
+}
+.btn-primary {
+    display: inline-block;
+    background: #2d6a9f;
+    color: #fff;
+    padding: 14px 35px;
+    border-radius: 40px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+    transition: background 0.2s;
+}
+.btn-primary:hover {
+    background: #1a4a7a;
+}
+.footer-info {
+    margin-top: 25px;
+    text-align: center;
+    color: #7a8a9e;
+}
+
+/* ===== ТОП-ПАНЕЛЬ ===== */
+.top-bar {
+    background: #fff;
+    border-radius: 20px 20px 0 0;
+    padding: 12px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    border-bottom: 2px solid #e8edf3;
+}
+.top-bar .logo {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1a3a5c;
+}
+.top-bar .logo span {
+    color: #2d6a9f;
+}
+.top-bar .nav-links {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+.top-bar .nav-links a {
+    color: #5a7a9a;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 15px;
+    transition: color 0.2s;
+}
+.top-bar .nav-links a:hover {
+    color: #2d6a9f;
+}
+.top-bar .nav-links .active {
+    color: #2d6a9f;
+    font-weight: 600;
+}
+
+/* ===== КАЛЬКУЛЯТОР ===== */
+.calc-toggle {
+    background: #2d6a9f;
+    color: #fff;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+.calc-toggle:hover {
+    background: #1a4a7a;
+}
+.calc-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.calc-popup.open {
+    display: flex;
+}
+.calc-popup .calc-content {
+    background: #fff;
+    border-radius: 24px;
+    padding: 25px;
+    max-width: 500px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    position: relative;
+}
+.calc-popup .calc-content h2 {
+    margin-bottom: 15px;
+    color: #1a3a5c;
+    font-size: 22px;
+}
+.calc-popup .calc-content .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #7a8a9e;
+}
+.calc-popup .calc-content .close-btn:hover {
+    color: #c0392b;
+}
+.calc-popup .calc-content input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 18px;
+    border: 2px solid #dde3ec;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    font-family: 'Courier New', monospace;
+}
+.calc-popup .calc-content input:focus {
+    outline: none;
+    border-color: #2d6a9f;
+}
+.calc-popup .calc-content .calc-btn {
+    background: #2d6a9f;
+    color: #fff;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+}
+.calc-popup .calc-content .calc-btn:hover {
+    background: #1a4a7a;
+}
+.calc-popup .calc-content .calc-result {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f7f9fc;
+    border-radius: 12px;
+    font-size: 18px;
+    min-height: 50px;
+}
+.calc-popup .calc-content .calc-result .error {
+    color: #c0392b;
+}
+
+/* ===== ШАПКА С ДАТОЙ ===== */
+.header {
+    background: linear-gradient(135deg, #1a3a5c, #2d6a9f);
+    color: #fff;
+    padding: 18px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.header h1 {
+    font-size: 22px;
+}
+.header .date {
+    font-size: 16px;
+    background: rgba(255,255,255,0.15);
+    padding: 6px 16px;
+    border-radius: 30px;
+}
+
+/* ===== ОСНОВНАЯ СЕТКА ===== */
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+@media (max-width: 768px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+        padding: 15px;
+    }
+}
+
+/* ===== КАРТОЧКА ЗАДАНИЯ ===== */
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.image-block img {
+    width: 100%;
+    border-radius: 14px;
+    border: 2px solid #e8edf3;
+    max-height: 350px;
+    object-fit: cover;
+}
+.image-block .label {
+    font-size: 14px;
+    color: #7a8a9e;
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+.no-image {
+    background: #eef2f6;
+    border-radius: 14px;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8a9aaa;
+    font-weight: 500;
+    border: 2px dashed #c0d0e0;
+}
+
+/* ===== ЗАДАНИЕ ===== */
+.work-block {
+    background: #f7f9fc;
+    padding: 16px 20px;
+    border-radius: 12px;
+    border-left: 5px solid #2d6a9f;
+}
+.work-block .label {
+    font-size: 12px;
+    color: #7a8a9e;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+.work-block .text {
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 4px;
+    color: #1a2a3a;
+}
+
+/* ===== ОТВЕТ ===== */
+.answer-block {
+    background: #eef5e9;
+    padding: 0 20px;
+    border-radius: 12px;
+    border-left: 5px solid #3ba34b;
+    overflow: hidden;
+    max-height: 0;
+    opacity: 0;
+    transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.3s ease;
+}
+.answer-block.open {
+    max-height: 800px;
+    opacity: 1;
+    padding: 16px 20px;
+}
+.answer-block .label {
+    font-size: 12px;
+    color: #3a7a4a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+.answer-block .text {
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 4px;
+    color: #1a3a1a;
+    white-space: pre-wrap;
+}
+
+/* ===== КНОПКА ===== */
+.toggle-btn {
+    background: #2d6a9f;
+    color: #fff;
+    border: none;
+    padding: 12px 28px;
+    border-radius: 40px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    align-self: flex-start;
+}
+.toggle-btn:hover {
+    background: #1a4a7a;
+}
+.toggle-btn.hidden-btn {
+    background: #7a8a9e;
+}
+
+/* ===== ПРИМЕРЫ ===== */
+.puzzle-block {
+    background: #fafffe;
+    border: 2px dashed #b0c8dd;
+    border-radius: 12px;
+    padding: 16px 20px;
+}
+.puzzle-block .label {
+    font-size: 12px;
+    color: #4a6a8a;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 12px;
+}
+.puzzle-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px 30px;
+    align-items: flex-start;
+}
+.puzzle-item {
+    font-family: 'Courier New', monospace;
+    font-size: 18px;
+    font-weight: 600;
+    background: #f5f9ff;
+    padding: 12px 16px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    min-width: 100px;
+    line-height: 1.3;
+}
+
+/* ===== МЕНЕДЖЕР ===== */
+.manager-block {
+    font-size: 14px;
+    color: #5a6a7e;
+    border-top: 2px solid #e8edf3;
+    padding-top: 14px;
+}
+.manager-block span {
+    font-weight: 700;
+    color: #1a3a5c;
+}
+
+/* ===== РЕКЛАМА ===== */
+.rek-side {
+    background: #fafcff;
+    border-radius: 14px;
+    border: 2px solid #e8edf3;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 12px;
+    height: fit-content;
+    text-align: center;
+}
+.rek-side .rek-label {
+    font-size: 12px;
+    color: #9aabbf;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.rek-side a {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+.rek-side a:hover {
+    transform: scale(1.02);
+}
+.rek-side img {
+    width: 100%;
+    max-width: 240px;
+    border-radius: 10px;
+    border: 1px solid #dde3ec;
+}
+@media (max-width: 768px) {
+    .rek-side {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        padding: 12px;
+    }
+    .rek-side img {
+        max-width: 180px;
+    }
+    .rek-side .rek-label {
+        width: 100%;
+        margin-bottom: 0;
+    }
+}
+
+/* ===== СПИСОК ДАТ ===== */
+.date-list {
+    background: #fff;
+    padding: 20px;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+}
+.date-list .empty {
+    text-align: center;
+    padding: 30px;
+    color: #8a9aaa;
+    font-size: 16px;
+}
+.date-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+}
+@media (max-width: 480px) {
+    .date-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 10px;
+    }
+}
+.date-card {
+    background: #f7f9fc;
+    border-radius: 14px;
+    padding: 18px 15px;
+    text-align: center;
+    text-decoration: none;
+    color: #1a3a5c;
+    border: 2px solid #e8edf3;
+    transition: all 0.2s;
+}
+.date-card:hover {
+    border-color: #2d6a9f;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+.date-card .day {
+    font-size: 24px;
+    font-weight: 700;
+}
+.date-card .date-full {
+    font-size: 14px;
+    color: #5a7a9a;
+    margin-top: 3px;
+}
+.date-card .badge {
+    display: inline-block;
+    background: #2d6a9f;
+    color: #fff;
+    font-size: 11px;
+    padding: 3px 12px;
+    border-radius: 20px;
+    margin-top: 8px;
+}
+
+/* ===== КНОПКА НАЗАД ===== */
+.back-link {
+    display: inline-block;
+    margin-top: 16px;
+    color: #2d6a9f;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 15px;
+}
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* ===== ЗАГРУЗКА / ОШИБКА ===== */
+.loading {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #5a7a9a;
+}
+.error {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #c0392b;
+}
+/* ===== РЕКЛАМА (ДЕСКТОП) ===== */
+.rek-side {
+    background: #fafcff;
+    border-radius: 14px;
+    border: 2px solid #e8edf3;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px 12px;
+    height: fit-content;
+    text-align: center;
+}
+.rek-side .rek-label {
+    font-size: 12px;
+    color: #9aabbf;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+.rek-side a {
+    display: block;
+    width: 100%;
+    border-radius: 10px;
+    transition: transform 0.2s;
+}
+.rek-side a:hover {
+    transform: scale(1.02);
+}
+.rek-side img {
+    width: 100%;
+    max-width: 240px;
+    border-radius: 10px;
+    border: 1px solid #dde3ec;
+}
+
+/* ===== РЕКЛАМА (ТЕЛЕФОН - ПО ЦЕНТРУ) ===== */
+@media (max-width: 768px) {
+    .rek-side {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px 15px;
+        margin: 10px 0;
+        width: 100%;
+        border: 2px solid #2d6a9f;
+        border-radius: 16px;
+        background: #f0f7ff;
+    }
+    .rek-side .rek-label {
+        font-size: 14px;
+        color: #2d6a9f;
+        margin-bottom: 12px;
+        width: 100%;
+        text-align: center;
+    }
+    .rek-side a {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+    .rek-side img {
+        max-width: 280px;
+        width: 100%;
+        border-radius: 12px;
+        border: 2px solid #dde3ec;
+    }
+}

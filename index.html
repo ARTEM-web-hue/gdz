@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5А Математика</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container main-page">
+        <!-- ТОП-ПАНЕЛЬ -->
+        <div class="top-bar">
+            <div class="logo">📐 <span>5А</span> Математика</div>
+            <div class="nav-links">
+                <a href="/" class="active">Главная</a>
+                <a href="/Match/">ГДЗ</a>
+                <button class="calc-toggle" onclick="openCalc()">🧮 Калькулятор</button>
+            </div>
+        </div>
+        
+        <!-- ГЕРОЙ -->
+        <div class="hero">
+            <h1>📐 5А Математика</h1>
+            <p>Готовые домашние задания для нашего класса</p>
+            <a href="/Match/" class="btn-primary">Перейти к заданиям →</a>
+        </div>
+        <div class="footer-info">
+            <p>👤 Добавляет: <span id="mainManager">Артём</span></p>
+        </div>
+    </div>
+
+    <!-- ===== КАЛЬКУЛЯТОР (ПОПАП) ===== -->
+    <div class="calc-popup" id="calcPopup">
+        <div class="calc-content">
+            <button class="close-btn" onclick="closeCalc()">✕</button>
+            <h2>🧮 Калькулятор</h2>
+            <p style="color:#7a8a9e;margin-bottom:15px;font-size:14px;">Введите пример: <strong>12+34-5*6</strong></p>
+            <input type="text" id="calcInput" placeholder="Например: 12+34-5*6" onkeydown="if(event.key==='Enter') runCalc()">
+            <button class="calc-btn" onclick="runCalc()">Посчитать</button>
+            <div class="calc-result" id="calcResult">Введите пример и нажмите "Посчитать"</div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Калькулятор
+        function openCalc() {
+            document.getElementById('calcPopup').classList.add('open');
+            document.getElementById('calcInput').focus();
+        }
+        
+        function closeCalc() {
+            document.getElementById('calcPopup').classList.remove('open');
+        }
+        
+        function runCalc() {
+            const input = document.getElementById('calcInput');
+            const expr = input.value.trim();
+            if (!expr) {
+                document.getElementById('calcResult').innerHTML = '❌ Введите пример';
+                return;
+            }
+            renderCalculation(expr);
+        }
+        
+        document.getElementById('calcPopup').addEventListener('click', function(e) {
+            if (e.target === this) closeCalc();
+        });
+    </script>
+</body>
+</html>

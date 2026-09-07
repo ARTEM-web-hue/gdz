@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ГДЗ 5А Математика</title>
+    <style>
+        /* ===== Глобальные стили ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f0f4f8;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            padding: 30px 15px;
+        }
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* ===== Шапка ===== */
+        .header {
+            background: linear-gradient(135deg, #1a3a5c, #2d6a9f);
+            color: #fff;
+            padding: 25px 30px;
+            border-radius: 20px 20px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .header .date {
+            font-size: 18px;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+        }
+
+        /* ===== Основной блок (карточка + реклама) ===== */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 280px;
+            gap: 25px;
+            background: #fff;
+            padding: 30px;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+        }
+        @media (max-width: 800px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== Карточка задания ===== */
+        .card {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* Фото */
+        .image-block img {
+            width: 100%;
+            border-radius: 16px;
+            border: 2px solid #e8edf3;
+            object-fit: cover;
+            max-height: 400px;
+        }
+        .image-block .label {
+            font-size: 14px;
+            color: #7a8a9e;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+
+        /* Задание */
+        .work-block {
+            background: #f7f9fc;
+            padding: 20px 24px;
+            border-radius: 14px;
+            border-left: 5px solid #2d6a9f;
+        }
+        .work-block .label {
+            font-size: 13px;
+            color: #7a8a9e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .work-block .text {
+            font-size: 20px;
+            font-weight: 500;
+            margin-top: 6px;
+            color: #1a2a3a;
+        }
+
+        /* Ответ (скрыт/показан) */
+        .answer-block {
+            background: #eef5e9;
+            padding: 0 24px;
+            border-radius: 14px;
+            border-left: 5px solid #3ba34b;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: max-height 0.5s ease, opacity 0.4s ease, padding 0.3s ease;
+        }
+        .answer-block.open {
+            max-height: 800px;
+            opacity: 1;
+            padding: 20px 24px;
+        }
+        .answer-block .label {
+            font-size: 13px;
+            color: #3a7a4a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .answer-block .text {
+            font-size: 20px;
+            font-weight: 500;
+            margin-top: 6px;
+            color: #1a3a1a;
+            white-space: pre-wrap;
+        }
+
+        /* Кнопка показать ответ */
+        .toggle-btn {
+            background: #2d6a9f;
+            color: #fff;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 40px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            align-self: flex-start;
+        }
+        .toggle-btn:hover {
+            background: #1a4a7a;
+        }
+        .toggle-btn:active {
+            transform: scale(0.96);
+        }
+        .toggle-btn.hidden-btn {
+            background: #7a8a9e;
+        }
+        .toggle-btn.hidden-btn:hover {
+            background: #5a6a7e;
+        }
+
+        /* ===== Примеры в столбик ===== */
+        .puzzle-block {
+            background: #fafffe;
+            border: 2px dashed #b0c8dd;
+            border-radius: 14px;
+            padding: 20px 24px;
+        }
+        .puzzle-block .label {
+            font-size: 13px;
+            color: #4a6a8a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .puzzle-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px 60px;
+            align-items: flex-start;
+        }
+        .puzzle-item {
+            font-family: 'Courier New', monospace;
+            font-size: 22px;
+            font-weight: 600;
+            background: #f5f9ff;
+            padding: 16px 24px 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            min-width: 120px;
+            line-height: 1.5;
+            white-space: pre;
+        }
+        .puzzle-item .line {
+            display: block;
+        }
+        .puzzle-item .hr {
+            display: block;
+            border-top: 3px solid #1a2a3a;
+            margin: 2px 0 4px 0;
+            width: 100%;
+        }
+        .puzzle-item .result {
+            font-weight: 700;
+            color: #1a6a3a;
+        }
+
+        /* Деление уголком */
+        .division-block {
+            font-family: 'Courier New', monospace;
+            font-size: 22px;
+            font-weight: 600;
+            background: #f5f9ff;
+            padding: 16px 24px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            min-width: 140px;
+            line-height: 1.6;
+            white-space: pre;
+        }
+        .division-block .res {
+            color: #1a6a3a;
+            font-weight: 700;
+        }
+
+        /* ===== Менеджер ===== */
+        .manager-block {
+            font-size: 15px;
+            color: #5a6a7e;
+            border-top: 2px solid #e8edf3;
+            padding-top: 18px;
+            margin-top: 5px;
+        }
+        .manager-block span {
+            font-weight: 700;
+            color: #1a3a5c;
+        }
+
+        /* ===== Реклама (сайдбар) ===== */
+        .rek-side {
+            background: #fafcff;
+            border-radius: 16px;
+            border: 2px solid #e8edf3;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 15px 15px 15px;
+            height: fit-content;
+            text-align: center;
+        }
+        .rek-side .rek-label {
+            font-size: 12px;
+            color: #9aabbf;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        .rek-side a {
+            display: block;
+            width: 100%;
+            border-radius: 12px;
+            transition: transform 0.2s;
+        }
+        .rek-side a:hover {
+            transform: scale(1.02);
+        }
+        .rek-side img {
+            width: 100%;
+            max-width: 240px;
+            border-radius: 12px;
+            border: 1px solid #dde3ec;
+            display: block;
+        }
+        .rek-side .rek-text {
+            margin-top: 12px;
+            font-size: 15px;
+            color: #2a4a6a;
+            font-weight: 500;
+        }
+
+        /* ===== Адаптив для рекламы ===== */
+        @media (max-width: 800px) {
+            .rek-side {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 15px;
+                padding: 15px;
+            }
+            .rek-side img {
+                max-width: 180px;
+            }
+            .rek-side .rek-text {
+                margin-top: 0;
+            }
+        }
+
+        /* ===== Кнопка "Назад" ===== */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2d6a9f;
+            font-weight: 600;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== Заглушка, если нет фото ===== */
+        .no-image {
+            background: #eef2f6;
+            border-radius: 16px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #8a9aaa;
+            font-weight: 500;
+            font-size: 18px;
+            border: 2px dashed #c0d0e0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- ===== ШАПКА ===== -->
+    <div class="header">
+        <h1>📐 5А Математика</h1>
+        <div class="date">08 сентября 2026</div>
+    </div>
+
+    <!-- ===== ОСНОВНАЯ СЕТКА ===== -->
+    <div class="main-grid">
+
+        <!-- ===== ЛЕВАЯ КОЛОНКА — ГДЗ ===== -->
+        <div class="card">
+
+            <!-- ФОТО РАЗВЕРТКИ -->
+            <div class="image-block">
+                <div class="label">📸 Развертка тетради</div>
+                <img src="https://i.imgur.com/8V7p9W0.png" alt="Фото развертки" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'" />
+                <div class="no-image" style="display:none;">🖼️ Фото не загружено</div>
+            </div>
+
+            <!-- ЗАДАНИЕ -->
+            <div class="work-block">
+                <div class="label">📝 Задание</div>
+                <div class="text">№456, 457, 458 (стр. 89)</div>
+            </div>
+
+            <!-- ПРИМЕРЫ В СТОЛБИК / УГОЛКОМ -->
+            <div class="puzzle-block">
+                <span class="label">🧮 Примеры</span>
+                <div id="puzzleContainer" class="puzzle-grid"></div>
+            </div>
+
+            <!-- ОТВЕТ (СКРЫТ) -->
+            <div id="answerBlock" class="answer-block">
+                <div class="label">✅ Ответ</div>
+                <div class="text" id="answerText">x = 15, y = 7</div>
+            </div>
+
+            <!-- КНОПКА ПОКАЗАТЬ ОТВЕТ -->
+            <button id="toggleBtn" class="toggle-btn">📖 Показать ответ</button>
+
+            <!-- МЕНЕДЖЕР -->
+            <div class="manager-block">
+                👤 Добавил: <span id="managerName">Артём</span>
+            </div>
+
+            <!-- КНОПКА НАЗАД -->
+            <a href="#" class="back-link">← Назад к списку</a>
+        </div>
+
+        <!-- ===== ПРАВАЯ КОЛОНКА — РЕКЛАМА ===== -->
+        <div class="rek-side">
+            <div class="rek-label">📢 Реклама</div>
+            <a href="https://t.me/tvoi_nick" target="_blank" id="rekLink">
+                <img src="https://i.imgur.com/K7g9p2E.png" alt="Реклама" onerror="this.style.display='none'; this.parentElement.nextElementSibling.style.display='block'" />
+            </a>
+            <div class="rek-text" style="display:none;">📱 Помогаю с математикой — пиши в ТГ</div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // ============================================================
+    //  1. ДАННЫЕ (как будто из YAML)
+    // ============================================================
+    const data = {
+        images: "https://i.imgur.com/8V7p9W0.png",
+        work: "№456, 457, 458 (стр. 89)",
+        answer: "x = 15, y = 7",
+        puzzle: "199-99, 36/6, 12*5, 245+137",
+        managers: "Артём",
+        rek: {
+            image: "https://i.imgur.com/K7g9p2E.png",
+            "giper-link": "https://t.me/tvoi_nick"
+        }
+    };
+
+    // ============================================================
+    //  2. ЗАПОЛНЯЕМ СТРАНИЦУ ДАННЫМИ
+    // ============================================================
+    document.querySelector('.work-block .text').textContent = data.work;
+    document.getElementById('answerText').textContent = data.answer;
+    document.getElementById('managerName').textContent = data.managers;
+
+    // Фото
+    const img = document.querySelector('.image-block img');
+    img.src = data.images;
+    img.onerror = function() {
+        this.style.display = 'none';
+        this.nextElementSibling.style.display = 'flex';
+    };
+
+    // Реклама
+    const rekImg = document.querySelector('.rek-side img');
+    const rekLink = document.getElementById('rekLink');
+    rekImg.src = data.rek.image;
+    rekLink.href = data.rek['giper-link'];
+    rekImg.onerror = function() {
+        this.style.display = 'none';
+        this.parentElement.nextElementSibling.style.display = 'block';
+    };
+
+    // ============================================================
+    //  3. ПАРСЕР ПРИМЕРОВ → СТОЛБИК / УГОЛОК
+    // ============================================================
+    function parsePuzzle(puzzleStr) {
+        if (!puzzleStr || puzzleStr.trim() === '') return [];
+        const parts = puzzleStr.split(',').map(s => s.trim()).filter(s => s.length > 0);
+        const results = [];
+
+        for (let part of parts) {
+            // Пробуем распарсить операцию
+            let match = part.match(/^(\d+)\s*([+\-*/])\s*(\d+)$/);
+            if (match) {
+                const a = parseInt(match[1]);
+                const op = match[2];
+                const b = parseInt(match[3]);
+                let res;
+                switch (op) {
+                    case '+': res = a + b; break;
+                    case '-': res = a - b; break;
+                    case '*': res = a * b; break;
+                    case '/': res = a / b; break;
+                }
+                results.push({
+                    type: 'calc',
+                    a, op, b, res,
+                    display: `${a} ${op} ${b} = ${res}`
+                });
+                continue;
+            }
+
+            // Если не распарсилось — просто показываем как текст
+            results.push({
+                type: 'text',
+                text: part
+            });
+        }
+        return results;
+    }
+
+    function renderPuzzle(container, puzzleStr) {
+        const items = parsePuzzle(puzzleStr);
+        container.innerHTML = '';
+
+        for (let item of items) {
+            if (item.type === 'text') {
+                const div = document.createElement('div');
+                div.className = 'puzzle-item';
+                div.textContent = item.text;
+                container.appendChild(div);
+                continue;
+            }
+
+            // Для деления показываем уголком
+            if (item.op === '/') {
+                const div = document.createElement('div');
+                div.className = 'division-block';
+                div.innerHTML = `
+                    ${item.a} ÷ ${item.b} = <span class="res">${item.res}</span>
+                `;
+                container.appendChild(div);
+                continue;
+            }
+
+            // Для + - * показываем столбиком
+            const div = document.createElement('div');
+            div.className = 'puzzle-item';
+
+            const num1 = String(item.a);
+            const num2 = String(item.b);
+            const maxLen = Math.max(num1.length, num2.length) + 1;
+
+            // Выравниваем по правому краю
+            const pad1 = num1.padStart(maxLen, ' ');
+            const pad2 = (item.op + num2).padStart(maxLen, ' ');
+            const line = '-'.repeat(maxLen);
+            const padRes = String(item.res).padStart(maxLen, ' ');
+
+            div.innerHTML = `
+                <span class="line">${pad1}</span>
+                <span class="line">${pad2}</span>
+                <span class="hr">${line}</span>
+                <span class="line result">${padRes}</span>
+            `;
+            container.appendChild(div);
+        }
+    }
+
+    // Рендерим примеры
+    const puzzleContainer = document.getElementById('puzzleContainer');
+    renderPuzzle(puzzleContainer, data.puzzle);
+
+    // ============================================================
+    //  4. ТОГГЛ ОТВЕТА
+    // ============================================================
+    const answerBlock = document.getElementById('answerBlock');
+    const toggleBtn = document.getElementById('toggleBtn');
+
+    let isOpen = false;
+
+    toggleBtn.addEventListener('click', function() {
+        isOpen = !isOpen;
+        answerBlock.classList.toggle('open', isOpen);
+        this.textContent = isOpen ? '🙈 Скрыть ответ' : '📖 Показать ответ';
+        this.classList.toggle('hidden-btn', isOpen);
+    });
+</script>
+
+</body>
+</html>
