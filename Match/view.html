@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5А Математика — ГДЗ</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/gdz/style.css">
 </head>
 <body>
     <div class="container">
@@ -12,8 +12,8 @@
         <div class="top-bar">
             <div class="logo">📐 <span>5А</span> Математика</div>
             <div class="nav-links">
-                <a href="/">Главная</a>
-                <a href="/Match/" class="active">ГДЗ</a>
+                <a href="/gdz/">Главная</a>
+                <a href="/gdz/Match/" class="active">ГДЗ</a>
                 <button class="calc-toggle" onclick="openCalc()">🧮 Калькулятор</button>
             </div>
         </div>
@@ -38,10 +38,10 @@
             </div>
         </div>
         
-        <a href="/Match/" class="back-link">← Назад к списку</a>
+        <a href="/gdz/Match/" class="back-link">← Назад к списку</a>
     </div>
 
-    <!-- КАЛЬКУЛЯТОР (ПОПАП) -->
+    <!-- КАЛЬКУЛЯТОР -->
     <div class="calc-popup" id="calcPopup">
         <div class="calc-content">
             <button class="close-btn" onclick="closeCalc()">✕</button>
@@ -53,20 +53,15 @@
         </div>
     </div>
     
-    <script src="/script.js"></script>
+    <script src="/gdz/script.js"></script>
     <script>
-        // ============================================================
-        //  КАЛЬКУЛЯТОР
-        // ============================================================
         function openCalc() {
             document.getElementById('calcPopup').classList.add('open');
             document.getElementById('calcInput').focus();
         }
-        
         function closeCalc() {
             document.getElementById('calcPopup').classList.remove('open');
         }
-        
         function runCalc() {
             const input = document.getElementById('calcInput');
             const expr = input.value.trim();
@@ -76,14 +71,10 @@
             }
             renderCalculation(expr);
         }
-        
         document.getElementById('calcPopup').addEventListener('click', function(e) {
             if (e.target === this) closeCalc();
         });
 
-        // ============================================================
-        //  ОСНОВНАЯ ЛОГИКА
-        // ============================================================
         const urlParams = new URLSearchParams(window.location.search);
         const date = urlParams.get('date');
         
@@ -106,7 +97,6 @@
                 
                 let html = '';
                 
-                // Фото
                 html += `
                     <div class="image-block">
                         <div class="label">📸 Развертка тетради</div>
@@ -115,7 +105,6 @@
                     </div>
                 `;
                 
-                // Задание
                 html += `
                     <div class="work-block">
                         <div class="label">📝 Задание</div>
@@ -123,7 +112,6 @@
                     </div>
                 `;
                 
-                // Примеры
                 html += `
                     <div class="puzzle-block">
                         <span class="label">🧮 Примеры</span>
@@ -131,7 +119,6 @@
                     </div>
                 `;
                 
-                // Ответ
                 html += `
                     <div id="answerBlock" class="answer-block">
                         <div class="label">✅ Ответ</div>
@@ -139,12 +126,10 @@
                     </div>
                 `;
                 
-                // Кнопка
                 html += `
                     <button id="toggleBtn" class="toggle-btn">📖 Показать ответ</button>
                 `;
                 
-                // Менеджер
                 html += `
                     <div class="manager-block">
                         👤 Добавил: <span id="managerName">${data.managers || 'Неизвестно'}</span>
@@ -153,11 +138,9 @@
                 
                 content.innerHTML = html;
                 
-                // Рендерим примеры (передаём delimage)
                 const puzzleContainer = document.getElementById('puzzleContainer');
                 await renderPuzzle(puzzleContainer, data.puzzle || '', data.delimage);
                 
-                // Тоггл ответа
                 const answerBlock = document.getElementById('answerBlock');
                 const toggleBtn = document.getElementById('toggleBtn');
                 let isOpen = false;
@@ -169,7 +152,6 @@
                     this.classList.toggle('hidden-btn', isOpen);
                 });
                 
-                // РЕКЛАМА
                 const rekImage = document.getElementById('rekImage');
                 const rekLink = document.getElementById('rekLink');
                 const rekSide = document.getElementById('rekSide');
