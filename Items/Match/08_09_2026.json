@@ -1,1 +1,12 @@
-
+{
+  "images": "https://i.imgur.com/ФОТО_РАЗВЕРТКИ.png",
+  "work": "ТЕСТ",
+  "answer": "ТЕСТ, ТЕСТ",
+  "puzzle": "00+00, 00/0, 0*00, 000-00",
+  "delimage": "https://i.imgur.com/ДЕЛЕНИЕ_УГОЛКОМ.png",
+  "managers": "atemmax",
+  "rek": {
+    "image": "https://i.imgur.com/РЕКЛАМА.png",
+    "giper-link": "https://t.me/tvoi_nick"
+  }
+}
