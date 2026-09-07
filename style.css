@@ -592,21 +592,22 @@ body {
 .rek-side-mobile {
     display: none;
     background: #f0f7ff;
-    border: 2px solid #2d6a9f;
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin: 12px 0 10px 0;
+    border: 3px solid #2d6a9f;
+    border-radius: 16px;
+    padding: 20px 16px;
+    margin: 15px 0 15px 0;
     text-align: center;
     width: 100%;
+    box-shadow: 0 4px 15px rgba(45, 106, 159, 0.15);
 }
 
 .rek-side-mobile .rek-label {
-    font-size: 13px;
+    font-size: 18px;
     color: #2d6a9f;
-    font-weight: 600;
-    margin-bottom: 8px;
+    font-weight: 700;
+    margin-bottom: 12px;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 1px;
 }
 
 .rek-side-mobile a {
@@ -615,13 +616,15 @@ body {
 }
 
 .rek-side-mobile img {
-    max-width: 320px;
+    max-width: 100%;
     width: 100%;
     height: auto;
-    max-height: 60px;
+    max-height: 300px;
+    min-height: 180px;
     object-fit: contain;
-    border-radius: 8px;
-    border: 1px solid #dde3ec;
+    border-radius: 12px;
+    border: 2px solid #dde3ec;
+    background: #fff;
 }
 
 /* ===== ПОКАЗЫВАЕМ НА ТЕЛЕФОНЕ, ПРЯЧЕМ НА ДЕСКТОПЕ ===== */
