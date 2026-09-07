@@ -24,20 +24,23 @@
             <div class="date" id="headerDate">Загрузка...</div>
         </div>
         
-        <!-- ===== РЕКЛАМА НАВЕРХ (ДЛЯ ТЕЛЕФОНА) ===== -->
-        <div class="rek-side-mobile" id="rekSideMobile" style="display:none;">
+        <!-- ========================================================== -->
+        <!-- ==== МОБИЛЬНАЯ РЕКЛАМА (НАВЕРХУ, БОЛЬШАЯ) ==== -->
+        <!-- ========================================================== -->
+        <div class="rek-side-mobile" id="rekSideMobile">
             <div class="rek-label">📢 Реклама</div>
             <a href="#" target="_blank" id="rekLinkMobile" rel="noopener noreferrer">
                 <img src="" alt="Реклама" id="rekImageMobile">
             </a>
         </div>
         
+        <!-- ОСНОВНАЯ СЕТКА -->
         <div class="main-grid">
             <div class="card" id="content">
                 <div class="loading">⏳ Загрузка задания...</div>
             </div>
             
-            <!-- РЕКЛАМА (ДЕСКТОП) -->
+            <!-- ДЕСКТОПНАЯ РЕКЛАМА -->
             <div class="rek-side" id="rekSide">
                 <div class="rek-label">📢 Реклама</div>
                 <a href="#" target="_blank" id="rekLink" rel="noopener noreferrer">
@@ -174,12 +177,16 @@
                     this.classList.toggle('hidden-btn', isOpen);
                 });
                 
-                // ===== РЕКЛАМА (ДЕСКТОП) =====
+                // ==========================================================
+                // ==== РЕКЛАМА (ДЕСКТОП) =====
+                // ==========================================================
                 const rekImage = document.getElementById('rekImage');
                 const rekLink = document.getElementById('rekLink');
                 const rekSide = document.getElementById('rekSide');
                 
-                // ===== РЕКЛАМА (МОБИЛЬНАЯ - НАВЕРХ) =====
+                // ==========================================================
+                // ==== РЕКЛАМА (МОБИЛЬНАЯ - НАВЕРХУ, БОЛЬШАЯ) =====
+                // ==========================================================
                 const rekImageMobile = document.getElementById('rekImageMobile');
                 const rekLinkMobile = document.getElementById('rekLinkMobile');
                 const rekSideMobile = document.getElementById('rekSideMobile');
@@ -191,7 +198,7 @@
                     rekLink.href = data.rek['giper-link'] || '#';
                     rekSide.style.display = 'flex';
                     
-                    // Мобильная (наверх)
+                    // Мобильная (наверху, большая)
                     rekImageMobile.src = data.rek.image;
                     rekImageMobile.style.display = 'block';
                     rekLinkMobile.href = data.rek['giper-link'] || '#';
