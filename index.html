@@ -3,38 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5А Математика</title>
-    <!-- Основной favicon -->
-<link rel="icon" type="image/x-icon" href="/gdz/favicon.ico">
-
-<!-- Для браузеров (PNG) -->
-<link rel="icon" type="image/png" sizes="16x16" href="/gdz/favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/gdz/favicon-32x32.png">
-
-<!-- Для Apple (iPhone, iPad) -->
-<link rel="apple-touch-icon" sizes="180x180" href="/gdz/apple-touch-icon.png">
-
-<!-- Для Android (если есть) -->
-<link rel="manifest" href="/gdz/site.webmanifest">
+    <title>5А Класс — ГДЗ</title>
+    <link rel="icon" type="image/x-icon" href="/gdz/favicon.ico">
     <link rel="stylesheet" href="/gdz/style.css">
 </head>
 <body>
     <div class="container main-page">
-        <!-- ТОП-ПАНЕЛЬ -->
-        <div class="top-bar">
-            <div class="logo">📐 <span>5А</span> Математика</div>
-            <div class="nav-links">
-                <a href="/gdz/" class="active">Главная</a>
-                <a href="/gdz/Match/">ГДЗ</a>
-                <button class="calc-toggle" onclick="openCalc()">🧮 Калькулятор</button>
-            </div>
-        </div>
+        <!-- ТОП-ПАНЕЛЬ (ЗАГРУЖАЕТСЯ ИЗ topbar.js) -->
+        <div id="topbar-container"></div>
         
         <!-- ГЕРОЙ -->
         <div class="hero">
-            <h1>📐 5А Математика</h1>
-            <p>Готовые домашние задания для нашего класса</p>
-            <a href="/gdz/Match/" class="btn-primary">Перейти к заданиям →</a>
+            <h1>📚 5А Класс</h1>
+            <p>Готовые домашние задания по всем предметам</p>
+            <div class="subjects-grid">
+                <a href="/gdz/pages/?subject=Match" class="subject-card">📐 Математика</a>
+                <a href="/gdz/pages/?subject=Eng" class="subject-card">🇬🇧 Английский</a>
+                <a href="/gdz/pages/?subject=Russia" class="subject-card">🇷🇺 Русский</a>
+                <a href="/gdz/pages/?subject=Bio" class="subject-card">🧬 Биология</a>
+                <a href="/gdz/pages/?subject=Geo" class="subject-card">🌍 География</a>
+                <a href="/gdz/pages/?subject=History" class="subject-card">📜 История</a>
+            </div>
         </div>
         <div class="footer-info">
             <p>👤 Добавляет: <span id="mainManager">Артём</span></p>
@@ -54,7 +43,9 @@
     </div>
 
     <script src="/gdz/script.js"></script>
+    <script src="/gdz/topbar.js"></script>
     <script>
+        // Калькулятор
         function openCalc() {
             document.getElementById('calcPopup').classList.add('open');
             document.getElementById('calcInput').focus();
